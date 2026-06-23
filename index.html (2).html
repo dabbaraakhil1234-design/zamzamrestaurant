@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zam Zam Restaurant Anantapur 2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Noto+Serif:wght@700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:   #1B4332;
+    --green-mid: #2D6A4F;
+    --green-light: #40916C;
+    --gold:    #D4A017;
+    --gold-light: #F4C842;
+    --cream:   #FDF8F0;
+    --warm:    #FAF3E0;
+    --text:    #1A1A1A;
+    --text-muted: #555;
+    --white:   #FFFFFF;
+    --shadow:  0 4px 24px rgba(0,0,0,0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(27, 67, 50, 0.97);
+    backdrop-filter: blur(8px);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .nav-links {
+    display: flex; gap: 24px; list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  @media(max-width:640px){
+    .nav-links { display: none; }
+    .nav-logo { font-size: 1rem; }
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(160deg, rgba(27,67,50,0.88) 0%, rgba(27,67,50,0.65) 60%, rgba(212,160,23,0.18) 100%),
+      url('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=1400&q=80') center/cover no-repeat;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 100px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(212,160,23,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold);
+    color: var(--green);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero h1 span { color: var(--gold-light); }
+  .hero-tagline {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(255,255,255,0.88);
+    margin-bottom: 40px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+  }
+  .hero-cta-group {
+    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--green);
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(212,160,23,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212,160,23,0.45); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.6);
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold-light); background: rgba(255,255,255,0.08); }
+  .hero-scroll {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: rgba(255,255,255,0.5); font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll svg { opacity: 0.6; }
+  @keyframes bounce { 0%,100%{ transform: translateX(-50%) translateY(0);} 50%{ transform: translateX(-50%) translateY(8px);} }
+
+  /* SECTIONS */
+  section { padding: 80px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--green-light); font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ''; display: block;
+    width: 28px; height: 1.5px; background: var(--green-light);
+  }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .section-lead {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 640px;
+    line-height: 1.8;
+  }
+
+  /* ABOUT */
+  #about { background: var(--white); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-top: 40px;
+  }
+  @media(max-width:768px){ .about-grid { grid-template-columns:1fr; gap: 36px; } }
+  .about-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .about-image img {
+    width: 100%; height: 380px; object-fit: cover; display: block;
+  }
+  .about-image-badge {
+    position: absolute; bottom: 20px; left: 20px;
+    background: var(--gold);
+    color: var(--green);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .about-pills {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+  }
+  .pill {
+    background: var(--warm);
+    border: 1.5px solid rgba(45,106,79,0.2);
+    color: var(--green-mid);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  /* MAP */
+  .map-wrapper {
+    margin-top: 32px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 2px solid rgba(45,106,79,0.12);
+  }
+  .map-wrapper iframe {
+    width: 100%; height: 280px; border: 0; display: block;
+  }
+
+  /* TIMINGS */
+  #timings { background: var(--green); }
+  #timings .eyebrow { color: var(--gold-light); }
+  #timings .eyebrow::before, #timings .eyebrow::after { background: var(--gold-light); }
+  #timings h2.section-title { color: var(--white); }
+  .timings-card {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .timing-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .timing-icon { font-size: 2rem; margin-bottom: 12px; }
+  .timing-label { color: rgba(255,255,255,0.65); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .timing-value { color: var(--gold-light); font-size: 1.4rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+
+  /* MENU */
+  #menu { background: var(--cream); }
+  .menu-tabs {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin: 32px 0 40px;
+  }
+  .tab-btn {
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 2px solid rgba(27,67,50,0.2);
+    background: transparent;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--green);
+    color: var(--white);
+    border-color: var(--green);
+  }
+  .menu-section { display: none; }
+  .menu-section.active { display: block; }
+
+  /* COMBO CARDS */
+  .combo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; }
+  .combo-card {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1.5px solid rgba(212,160,23,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .combo-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.14); }
+  .combo-card-header {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+    padding: 28px 24px 20px;
+    position: relative;
+  }
+  .combo-price-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--gold);
+    color: var(--green);
+    font-size: 1.3rem;
+    font-weight: 900;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: 'Playfair Display', serif;
+  }
+  .combo-card-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .combo-tag {
+    font-size: 0.72rem;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .combo-card-body { padding: 24px; }
+  .combo-items { list-style: none; }
+  .combo-items li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .combo-items li:last-child { border-bottom: none; }
+  .combo-items li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  /* MENU GRID */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .menu-item {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border: 1.5px solid rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .menu-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .menu-item-name { font-weight: 600; font-size: 0.9rem; color: var(--text); line-height: 1.4; }
+  .menu-item-price {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--green-mid);
+    white-space: nowrap;
+    margin-left: 12px;
+    flex-shrink: 0;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--white); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+    align-items: start;
+  }
+  @media(max-width:768px){ .contact-grid { grid-template-columns: 1fr; } }
+  .contact-card {
+    background: var(--warm);
+    border-radius: 20px;
+    padding: 32px;
+    border: 1.5px solid rgba(45,106,79,0.12);
+  }
+  .contact-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: var(--green);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+  .contact-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .contact-value { font-weight: 600; color: var(--text); font-size: 0.95rem; line-height: 1.5; }
+  .contact-value a { color: var(--green-mid); text-decoration: none; }
+  .contact-value a:hover { color: var(--gold); }
+
+  .social-card {
+    background: var(--green);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .social-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+  .social-link {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .social-link:hover { background: rgba(255,255,255,0.18); transform: translateX(4px); }
+  .social-link .social-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .insta-icon { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .swiggy-icon { background: #FC8019; }
+
+  /* ORDER CTA */
+  .order-cta {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 50%, var(--green-light) 100%);
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    margin: 60px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .order-cta::before {
+    content: '🍛';
+    font-size: 8rem;
+    position: absolute;
+    right: -20px; top: -20px;
+    opacity: 0.15;
+    filter: grayscale(1);
+  }
+  .order-cta h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    margin-bottom: 12px;
+  }
+  .order-cta p { color: rgba(255,255,255,0.8); margin-bottom: 28px; font-size: 1rem; }
+
+  /* FOOTER */
+  footer {
+    background: #0D2818;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+  footer span { color: var(--gold-light); font-weight: 600; }
+
+  /* MENU SUB LABEL */
+  .menu-sub-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(45,106,79,0.15);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🕌 Zam Zam Anantapur 2.0</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#timings">Timings</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🏆 Best Biryani in Anantapur</div>
+  <h1>Zam Zam<br><span>Restaurant</span><br>Anantapur 2.0</h1>
+  <p class="hero-tagline">Delicious Biryanis, Combos &amp; Starters</p>
+  <div class="hero-cta-group">
+    <a href="tel:7989407434" class="btn-primary">📞 Call to Order</a>
+    <a href="#menu" class="btn-outline">View Menu ↓</a>
+  </div>
+  <div class="hero-scroll">
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&q=80" alt="Delicious Biryani at Zam Zam Restaurant" loading="lazy"/>
+          <div class="about-image-badge">🍛 Since 2026</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">About Us</p>
+        <h2 class="section-title">Where Every Meal Tells a Story</h2>
+        <p class="section-lead">
+          Zam Zam Restaurant Anantapur 2.0 serves delicious biryanis, combos, curries, and starters at affordable prices. Located near 4th Town Police Station on Rudrampeta Bypass, Anantapur.
+        </p>
+        <div class="about-pills">
+          <span class="pill">🍛 Biryani Specialists</span>
+          <span class="pill">🥘 Combo Meals</span>
+          <span class="pill">🔥 Fresh Starters</span>
+          <span class="pill">📦 Catering Available</span>
+          <span class="pill">🛵 Swiggy Delivery</span>
+        </div>
+        <div class="map-wrapper">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3843.097394553766!2d77.59!3d14.69!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb14e4a6d8b9f7d%3A0x3b2f8a5f8b6e7a1c!2sRudrampeta%20Bypass%2C%20Anantapur%2C%20Andhra%20Pradesh%20515004!5e0!3m2!1sen!2sin!4v1718000000000!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Zam Zam Restaurant Location">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMINGS -->
+<section id="timings">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <p class="eyebrow">We Are Open</p>
+      <h2 class="section-title" style="color:var(--white);">Come Visit Us</h2>
+    </div>
+    <div class="timings-card reveal">
+      <div class="timing-item">
+        <div class="timing-icon">📅</div>
+        <div class="timing-label">Days Open</div>
+        <div class="timing-value">Every Day</div>
+      </div>
+      <div class="timing-item">
+        <div class="timing-icon">🕙</div>
+        <div class="timing-label">Opens At</div>
+        <div class="timing-value">11:00 AM</div>
+      </div>
+      <div class="timing-item">
+        <div class="timing-icon">🌙</div>
+        <div class="timing-label">Closes At</div>
+        <div class="timing-value">10:00 PM</div>
+      </div>
+      <div class="timing-item">
+        <div class="timing-icon">📞</div>
+        <div class="timing-label">Reservations</div>
+        <div class="timing-value" style="font-size:1.1rem;">7989407434</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="eyebrow">Our Menu</p>
+      <h2 class="section-title">Taste That Stays With You</h2>
+    </div>
+    <div class="menu-tabs reveal">
+      <button class="tab-btn active" onclick="showMenu('combos', this)">🌟 Combos</button>
+      <button class="tab-btn" onclick="showMenu('nonveg', this)">🍗 Non-Veg Biryanis</button>
+      <button class="tab-btn" onclick="showMenu('biryanis', this)">🥗 Veg Biryanis</button>
+      <button class="tab-btn" onclick="showMenu('starters', this)">🔥 Starters</button>
+      <button class="tab-btn" onclick="showMenu('roti', this)">🫓 Roti & Curry</button>
+    </div>
+
+    <!-- COMBOS -->
+    <div class="menu-section active" id="combos">
+      <div class="combo-grid">
+        <div class="combo-card reveal">
+          <div class="combo-card-header">
+            <div class="combo-tag">Best Seller · 5 Items</div>
+            <h3>Shadi Ki Biryani Combo</h3>
+            <div class="combo-price-badge">₹199</div>
+          </div>
+          <div class="combo-card-body">
+            <ul class="combo-items">
+              <li>Biryani</li>
+              <li>Rumali Roti</li>
+              <li>Handi Chicken Curry</li>
+              <li>Chicken 65</li>
+              <li>Gulab Jamun</li>
+            </ul>
+          </div>
+        </div>
+        <div class="combo-card reveal">
+          <div class="combo-card-header" style="background: linear-gradient(135deg, #2D6A4F 0%, #40916C 100%);">
+            <div class="combo-tag">Value Pick · 3 Items</div>
+            <h3>Mini Combo</h3>
+            <div class="combo-price-badge">₹159</div>
+          </div>
+          <div class="combo-card-body">
+            <ul class="combo-items">
+              <li>Biryani</li>
+              <li>Kebab</li>
+              <li>Gulab Jamun</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NON-VEG BIRYANIS -->
+    <div class="menu-section" id="nonveg">
+      <div class="menu-sub-label reveal">🍗 Non-Veg Biryanis</div>
+      <div class="menu-grid">
+        <div class="menu-item reveal"><span class="menu-item-name">Chicken Biryani (Half)</span><span class="menu-item-price">₹119</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Mutton Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Boneless Chicken Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Keema Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Prawns Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Special Chicken Biryani Plate</span><span class="menu-item-price">₹149</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Special Biryani (Unlimited)</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Chicken 65 Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Spl Dum Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Chicken Fry Piece Biryani</span><span class="menu-item-price">₹199</span></div>
+      </div>
+    </div>
+
+    <!-- VEG BIRYANIS -->
+    <div class="menu-section" id="biryanis">
+      <div class="menu-sub-label reveal">🥗 Veg Biryanis</div>
+      <div class="menu-grid">
+        <div class="menu-item reveal"><span class="menu-item-name">Paneer Biryani</span><span class="menu-item-price">₹199</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Kaju Biryani</span><span class="menu-item-price">₹199</span></div>
+      </div>
+    </div>
+
+    <!-- STARTERS -->
+    <div class="menu-section" id="starters">
+      <div class="menu-sub-label reveal">🔥 Starters</div>
+      <div class="menu-grid">
+        <div class="menu-item reveal"><span class="menu-item-name">Chilli Chicken</span><span class="menu-item-price">₹149</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Pepper Chicken</span><span class="menu-item-price">₹149</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Chicken 65</span><span class="menu-item-price">₹149</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Raju Chicken Dry</span><span class="menu-item-price">₹149</span></div>
+      </div>
+    </div>
+
+    <!-- ROTI & CURRY -->
+    <div class="menu-section" id="roti">
+      <div class="menu-sub-label reveal">🫓 Roti & Curry</div>
+      <div class="menu-grid">
+        <div class="menu-item reveal"><span class="menu-item-name">Roti</span><span class="menu-item-price">₹60</span></div>
+        <div class="menu-item reveal"><span class="menu-item-name">Chicken Curry</span><span class="menu-item-price">₹149</span></div>
+      </div>
+    </div>
+
+    <!-- ORDER CTA -->
+    <div class="order-cta reveal">
+      <h2>Catering Available for Events!</h2>
+      <p>We cater to weddings, parties, and corporate events. Call us to discuss your requirements.</p>
+      <a href="tel:7989407434" class="btn-primary" style="margin: 0 auto; display:inline-flex;">📞 Call 7989407434</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="eyebrow">Get In Touch</p>
+      <h2 class="section-title">Visit or Order Online</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card reveal">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Address</div>
+            <div class="contact-value">Rudrampeta Bypass, Near 4th Town Police Station,<br>Anantapur, Andhra Pradesh – 515004</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-value"><a href="tel:7989407434">+91 79894 07434</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕙</div>
+          <div>
+            <div class="contact-label">Hours</div>
+            <div class="contact-value">Open Daily · 11:00 AM – 10:00 PM</div>
+          </div>
+        </div>
+      </div>
+      <div class="social-card reveal">
+        <h3>Find Us Online</h3>
+        <a href="https://www.instagram.com/zam_zamresturant_anantapur_2.0" target="_blank" rel="noopener" class="social-link">
+          <div class="social-icon insta-icon">📸</div>
+          <div>
+            <div style="font-size:0.72rem;opacity:0.7;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Instagram</div>
+            @zam_zamresturant_anantapur_2.0
+          </div>
+        </a>
+        <a href="https://www.swiggy.com/city/anantapur/zam-zam-roof-top-restaurant-adimurthy-nagar-rest1007257" target="_blank" rel="noopener" class="social-link">
+          <div class="social-icon swiggy-icon">🛵</div>
+          <div>
+            <div style="font-size:0.72rem;opacity:0.7;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;">Order on Swiggy</div>
+            Zam Zam Roof Top Restaurant
+          </div>
+        </a>
+        <div style="margin-top:8px;">
+          <a href="tel:7989407434" class="btn-primary" style="width:100%;justify-content:center;">📞 Call Now to Order</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>🕌 <span>Zam Zam Restaurant Anantapur 2.0</span></p>
+  <p style="margin-top:6px;">Rudrampeta Bypass, Near 4th Town Police Station, Anantapur – 515004</p>
+  <p style="margin-top:10px;">© 2026 Zam Zam Restaurant Anantapur 2.0. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // TABS
+  function showMenu(id, btn) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
